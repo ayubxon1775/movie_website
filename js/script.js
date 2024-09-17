@@ -100,7 +100,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Modal
 
-    const modalTrigger = document.querySelector("[data-modal]"),
+    const modalTrigger = document.querySelectorAll("[data-modal]"),
         modal = document.querySelector(".modal"),
         modalCloseBtn = document.querySelector("[data-close]");
 
@@ -117,7 +117,9 @@ window.addEventListener("DOMContentLoaded", () => {
         clearInterval(modalTimerId)
     }
 
-    modalTrigger.addEventListener("click", openModal);
+    modalTrigger.forEach(item => {
+        item.addEventListener("click", openModal)
+    })
 
     modalCloseBtn.addEventListener("click", closeModal);
 
@@ -133,4 +135,14 @@ window.addEventListener("DOMContentLoaded", () => {
     })
 
     const modalTimerId = setTimeout(openModal, 5000);
+
+    function showModalByScroll() {
+        if(
+            window.pageYOffset + document.documentElement.clientHeight  >= document.documentElement.scrollHeight 
+    )
+    { openModal() 
+        window.removeEventListener('scroll', showModalByScroll)
+}
+}
+window.addEventListener('scroll', showModalByScroll, {once: true})
 });
